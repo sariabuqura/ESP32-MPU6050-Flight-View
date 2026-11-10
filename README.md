@@ -101,19 +101,86 @@ Mount the MPU6050 **flat, chip side up**, firmly on the breadboard:
 
 ## Libraries
 
-Install from the Arduino IDE **Library Manager**:
+### ESP32 board package
 
-| Library | Author |
+| Item | Value |
 |---|---|
-| WiFiManager | tzapu |
-| Adafruit MPU6050 | Adafruit |
-| Adafruit Unified Sensor | Adafruit |
-| Adafruit SSD1306 | Adafruit |
-| Adafruit GFX Library | Adafruit (installed with SSD1306) |
+| Name in Boards Manager | **esp32** by **Espressif Systems** |
+| Install from | Arduino IDE → **Tools → Board → Boards Manager…** → search `esp32` |
+| Additional Boards Manager URL (only if it doesn't appear) | `https://espressif.github.io/arduino-esp32/package_esp32_index.json`<br/>(add it in **File → Preferences → Additional boards manager URLs**) |
+| Source | https://github.com/espressif/arduino-esp32 |
 
-`WiFi`, `WebServer` and `Wire` come with the ESP32 board package.
+These libraries are **included with the ESP32 board package**, so there's nothing to install:
 
-> This version uses the built-in `WebServer`, not ESPAsyncWebServer, because WiFiManager is built on `WebServer` and the two can conflict.
+| Header | Library |
+|---|---|
+| `#include <WiFi.h>` | WiFi |
+| `#include <WebServer.h>` | WebServer |
+| `#include <Wire.h>` | Wire (I2C) |
+
+### Libraries to install
+
+Install from **Sketch → Include Library → Manage Libraries…** (Library Manager). Type the name in the search box exactly as shown in the first column.
+
+| Search name in Library Manager | Author | Header used in the sketch | Source |
+|---|---|---|---|
+| **WiFiManager** | tzapu | `#include <WiFiManager.h>` | https://github.com/tzapu/WiFiManager |
+| **Adafruit MPU6050** | Adafruit | `#include <Adafruit_MPU6050.h>` | https://github.com/adafruit/Adafruit_MPU6050 |
+| **Adafruit Unified Sensor** | Adafruit | `#include <Adafruit_Sensor.h>` | https://github.com/adafruit/Adafruit_Sensor |
+| **Adafruit SSD1306** | Adafruit | `#include <Adafruit_SSD1306.h>` | https://github.com/adafruit/Adafruit_SSD1306 |
+| **Adafruit GFX Library** | Adafruit | `#include <Adafruit_GFX.h>` | https://github.com/adafruit/Adafruit-GFX-Library |
+| **Adafruit BusIO** | Adafruit | *(used inside the Adafruit libraries)* | https://github.com/adafruit/Adafruit_BusIO |
+
+> When you install **Adafruit MPU6050** or **Adafruit SSD1306**, the IDE asks to install their dependencies (Unified Sensor, GFX, BusIO). Click **Install all**.
+>
+> WiFiManager by **tzapu** is the correct one. Several libraries have similar names, so check the author.
+
+### Where the libraries are installed
+
+Libraries from the Library Manager go into your **sketchbook `libraries` folder**:
+
+| OS | Location |
+|---|---|
+| Windows | `Documents\Arduino\libraries\` |
+| macOS | `~/Documents/Arduino/libraries/` |
+| Linux | `~/Arduino/libraries/` |
+
+You can check or change the sketchbook folder in **File → Preferences → Sketchbook location**.
+
+The built-in ESP32 libraries (`WiFi`, `WebServer`, `Wire`) live inside the board package:
+
+| OS | Location |
+|---|---|
+| Windows | `%LOCALAPPDATA%\Arduino15\packages\esp32\hardware\esp32\<version>\libraries\` |
+| macOS | `~/Library/Arduino15/packages/esp32/hardware/esp32/<version>/libraries/` |
+| Linux | `~/.arduino15/packages/esp32/hardware/esp32/<version>/libraries/` |
+
+### Install from the command line (optional)
+
+**arduino-cli**
+```bash
+arduino-cli core install esp32:esp32
+arduino-cli lib install "WiFiManager" "Adafruit MPU6050" "Adafruit Unified Sensor" \
+                        "Adafruit SSD1306" "Adafruit GFX Library" "Adafruit BusIO"
+```
+
+**PlatformIO** (`platformio.ini`)
+```ini
+[env:esp32dev]
+platform = espressif32
+board = esp32dev
+framework = arduino
+monitor_speed = 115200
+lib_deps =
+    tzapu/WiFiManager
+    adafruit/Adafruit MPU6050
+    adafruit/Adafruit Unified Sensor
+    adafruit/Adafruit SSD1306
+    adafruit/Adafruit GFX Library
+    adafruit/Adafruit BusIO
+```
+
+> This version uses the built-in `WebServer`, not ESPAsyncWebServer, because WiFiManager is built on `WebServer` and the two can conflict. If you have **ESPAsyncWebServer** or **AsyncTCP** in your `libraries` folder from an older version of this project, you can delete them.
 
 ---
 

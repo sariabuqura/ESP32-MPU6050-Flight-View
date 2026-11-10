@@ -4,7 +4,8 @@ Tilt a breadboard and watch a 3D airplane follow it live in your web browser.
 
 An ESP32 reads an **MPU6050** gyroscope/accelerometer, works out the board's roll, pitch and heading, and serves a web page that shows a 3D airplane flying over a sunset landscape, with cockpit instruments, a live graph and warnings. Wi-Fi is set up from your phone with **WiFiManager**, and a small **SSD1306 OLED** shows the network name and IP address so you always know where to connect.
 
-![Flight view web page](docs/flight-view.png)
+![Flight view web page](ESP32-MPU6050-Flight-View.png)
+![Flight view web page](ESP32-MPU6050-Flight-View-Web.png)
 
 ---
 
